@@ -1,0 +1,38 @@
+Function isSafe(vertex, graph, color[], colorToCheck, totalVertices):
+    For each vertex i from 0 to totalVertices - 1:
+        If graph[vertex][i] is true AND color[i] == colorToCheck:
+            Return false
+    Return true
+
+Function graphColoring(graph, maxColors, color[], vertex, totalVertices):
+    If vertex == totalVertices:
+        Return true   // All vertices are colored
+
+    For colorToTry from 1 to maxColors:
+        If isSafe(vertex, graph, color, colorToTry, totalVertices):
+            color[vertex] = colorToTry
+            If graphColoring(graph, maxColors, color, vertex + 1, totalVertices):
+                Return true
+            color[vertex] = 0   // Backtrack
+
+    Return false
+
+Main:
+    Input totalVertices (V)
+    Input totalEdges (E)
+    Initialize graph as V x V matrix with all false
+    Initialize color array with 0
+
+    For each edge from 1 to E:
+        Input edge as (u, v)
+        Set graph[u][v] = true
+        Set graph[v][u] = true  // Because the graph is undirected
+
+    Input maxColors (M)
+
+    If graphColoring(graph, M, color, 0, V):
+        Print "Solution exists"
+        For each vertex i from 0 to V - 1:
+            Print vertex i and its assigned color
+    Else:
+        Print "No solution exists with M colors"
